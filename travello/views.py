@@ -16,6 +16,16 @@ def details(request, id):
     comment_form = CommentForm()
     reply_form = ReplyForm()
 
+    # Tracking the number of views for unregistered users
+    if not request.user.is_authenticated:
+        viewed_destinations = request.session.get('viewed_destinations', [])
+        if id not in viewed_destinations:
+            viewed_destinations.append(id)
+            request.session['viewed_destinations'] = viewed_destinations
+        
+        if len(viewed_destinations) > 2:
+            return redirect('register')  # Redirect to registration page
+
     if request.method == "POST":
         if 'comment_form' in request.POST:
             form = CommentForm(request.POST)
