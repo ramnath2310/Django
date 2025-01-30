@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User,auth
 from django.shortcuts import redirect
+import re
 
 from django.contrib import messages
 
@@ -22,6 +23,10 @@ def register(request):
                 elif User.objects.filter(email=email).exists():
                     messages.info(request,'Email already taken')
                     return redirect('register')
+                
+                elif not re.match(r"^[a-zA-Z0-9_.+-]+@(gmail\.com|yahoo\.com|mnk\.com)$", email):
+                         messages.info(request, "Please use a valid email address with @gmail.com or @yahoo.com or @mnk.com")
+                         return redirect('register')
                 else:      
                     user=User.objects.create_user(username=username, email=email, password=password,first_name=first_name, last_name=last_name)
                     user.save()

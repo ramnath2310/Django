@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'lms.apps.LmsConfig',
     'travello.apps.TravelloConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +138,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'assets')
 MEDIA_URL='/media/'
 MEDIA_ROOT =os.path.join(BASE_DIR,'media') 
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 
 

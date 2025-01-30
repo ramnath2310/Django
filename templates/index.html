@@ -257,24 +257,23 @@
 				<div class="col">
 					<div class="destinations_container item_grid">
 
-
-						{% for dest in dests %}						
+						{% for dest in dests %}
 						<!-- Destination -->
 						<div class="destination item">
 							<div class="destination_image">
-								<img src="{{dest.img.url}}" alt="">
-								{% if dest.offer%}
-								    <div class="spec_offer text-center"><a href="#">Special Offer</a></div>
-								{% endif %}	
+								<img src="{{ dest.img.url }}" alt="">
+								{% if dest.offer %}
+									<div class="spec_offer text-center"><a href="#">Special Offer</a></div>
+								{% endif %}
 							</div>
 							<div class="destination_content">
-								<div class="destination_title"><a href="destinations.html">{{dest.name}}</a></div>
-								<div class="destination_subtitle"><p>{{dest.desc}}</p></div>
-								<div class="destination_price">From ${{dest.price}}</div>
+								<div class="destination_title"><a href="{% url 'details' dest.id %}">{{ dest.name }}</a></div>
+								<div class="destination_subtitle"><p>{{ dest.desc|safe|slice:210 }}</p></div>
+								<div class="destination_price">From ${{ dest.price }}</div>
 							</div>
 						</div>
-
-						{% endfor %}
+					{% endfor %}
+					
 						</div>
 					</div>
 				</div>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Details</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script>
+        function toggleComments() {
+            var commentsSection = document.getElementById('comments-section');
+            var button = document.getElementById('toggle-comments-button');
+            if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+                commentsSection.style.display = 'block';
+                button.textContent = 'Hide Comments';
+            } else {
+                commentsSection.style.display = 'none';
+                button.textContent = 'Show Comments';
+            }
+        }
+
+        function toggleReplies(commentId) {
+            var replies = document.getElementById('replies-' + commentId);
+            if (replies.style.display === 'none' || replies.style.display === '') {
+                replies.style.display = 'block';
+            } else {
+                replies.style.display = 'none';
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .comments-section {
+            margin-top: 20px;
+        }
+
+        .comment, .reply {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .reply {
+            margin-left: 20px;
+        }
+
+        .comment-form, .reply-form {
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .reply-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .like-button, .dislike-button {
+            background: none;
+            border: none;
+            color: #007bff;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ destination.name }}</h2>
+        <img src="{{ destination.img.url }}" alt="{{ destination.name }}">
+        <p>{{ destination.desc|safe }}</p>
+        <p><strong>Price:</strong> ₹{{ destination.price }}</p>
+        <p><strong>Offer:</strong> {{ destination.offer }}</p>
+
+        <button id="toggle-comments-button" class="button" onclick="toggleComments()">Show Comments</button>
+
+        <div id="comments-section" class="comments-section" style="display: none;">
+            <h3>Comments ({{ comments.count }})</h3>  <!-- Added count for comments -->
+            {% for comment in comments %}
+                <div class="comment">
+                    <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
+                    <small>{{ comment.created_at }}</small>
+                    <button class="reply-button" onclick="toggleReplies({{ comment.id }})">Show Replies ({{ comment.replies.count }})</button>
+                    
+                    <div>
+                        <form method="post" action="{% url 'like_comment' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="like-button">Like ({{ comment.like_count }})</button>
+                        </form>
+                        <form method="post" action="{% url 'dislike_comment' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dislike-button">Dislike ({{ comment.dislike_count }})</button>
+                        </form>
+                    </div>
+
+                    <div class="replies" id="replies-{{ comment.id }}" style="display: none;">
+                        {% for reply in comment.replies.all %}
+                            <div class="reply">
+                                <p><strong>{{ reply.user.username }}</strong>: {{ reply.text }}</p>
+                                <small>{{ reply.created_at }}</small>
+                                
+                                <div>
+                                    <form method="post" action="{% url 'like_comment' reply.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="like-button">Like ({{ reply.like_count }})</button>
+                                    </form>
+                                    <form method="post" action="{% url 'dislike_comment' reply.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dislike-button">Dislike ({{ reply.dislike_count }})</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% if user.is_authenticated %}
+                            <form method="post" class="reply-form">
+                                {% csrf_token %}
+                                {{ reply_form.as_p }}
+                                <input type="hidden" name="parent_id" value="{{ comment.id }}">
+                                <button type="submit" name="reply_form" class="button">Reply</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+
+            {% if user.is_authenticated %}
+                <h3>Leave a Comment</h3>
+                <form method="post" class="comment-form">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" name="comment_form" class="button">Submit</button>
+                </form>
+            {% else %}
+                <p>You must be <a href="{% url 'login' %}">logged in</a> to comment.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

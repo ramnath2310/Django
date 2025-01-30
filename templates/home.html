@@ -1,0 +1,163 @@
+{% load static %}
+{% static "pics" as baseUrl %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Udemy Course Page Clone</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+    }
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      color: #7c3aed;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    header .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header input {
+      padding: 0.5rem;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    header button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    header button:nth-child(2) {
+      background-color: #7c3aed;
+      color: white;
+    }
+    .banner {
+      background-color: #7c3aed;
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .banner h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .banner p {
+      margin-top: 1rem;
+      font-size: 1.25rem;
+    }
+    .banner button {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background-color: white;
+      color: #7c3aed;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .courses {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    .courses h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .course {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .course img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+    .course-content {
+      padding: 1rem;
+    }
+    .course-content h4 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .course-content p {
+      margin-top: 0.5rem;
+      color: #6b7280;
+    }
+    .course-content button {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      width: 100%;
+      background-color: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    footer {
+      background-color: #1f2937;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    
+    <h1>Udemy</h1>
+    <div class="search-bar">
+      <input type="text" placeholder="Search for anything">
+      <button>Login</button>
+      <button>Sign Up</button>
+    </div>
+  </header>
+  <section class="banner">
+    <h2>Unlock Your Learning Potential</h2>
+    <p>Explore thousands of courses across a variety of topics</p>
+    <button>Get Started</button>
+  </section>
+  <section class="courses">
+
+    <h3>Featured Courses</h3>
+    {% for i in course %}
+    
+    <div class="course-grid">
+      <!-- Repeat this block for each course -->
+      <div class="course pics"> 
+        <div class="course-content">
+          <img src="{{ i.img.url }}" alt="">
+          <h4>{{i.cname}}</h4>
+          <button>Enroll Now</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+
+</body>
+</html>
