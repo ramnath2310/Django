@@ -117,6 +117,13 @@
         <p><strong>Price:</strong> ₹{{ destination.price }}</p>
         <p><strong>Offer:</strong> {{ destination.offer }}</p>
 
+        <!-- Message to register for more details -->
+        {% if not user.is_authenticated %}
+            {% if request.session.viewed_destinations|length > 2 %}
+                <p><strong>Please register to view more destination details.</strong></p>
+            {% endif %}
+        {% endif %}
+
         <button id="toggle-comments-button" class="button" onclick="toggleComments()">Show Comments</button>
 
         <div id="comments-section" class="comments-section" style="display: none;">

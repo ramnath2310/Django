@@ -3,29 +3,27 @@ from .models import Destination, Comment
 from .forms import CommentForm, ReplyForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def index(request):
+    request.session['viewed_destinations'] = []
     dests = Destination.objects.all()
     return render(request, "index.html", {'dests': dests, 'is_authenticated': request.user.is_authenticated})
-
 
 def details(request, id):
     destination = get_object_or_404(Destination, pk=id)
     comments = destination.comments.filter(parent__isnull=True)  # Only top-level comments
     comment_form = CommentForm()
     reply_form = ReplyForm()
-
-    # Tracking the number of views for unregistered users
-    if not request.user.is_authenticated:
-        viewed_destinations = request.session.get('viewed_destinations', [])
-        if id not in viewed_destinations:
-            viewed_destinations.append(id)
-            request.session['viewed_destinations'] = viewed_destinations
-        
-        if len(viewed_destinations) > 2:
-            return redirect('register')  # Redirect to registration page
-
+    
     if request.method == "POST":
         if 'comment_form' in request.POST:
             form = CommentForm(request.POST)
