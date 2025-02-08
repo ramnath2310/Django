@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Previous Work</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var isFresher = "{{ is_fresher }}" === "True";
+            if (isFresher) {
+                document.getElementById("id_company_name").disabled = true;
+                document.getElementById("id_job_title").disabled = true;
+                document.getElementById("id_start_date").disabled = true;
+                document.getElementById("id_end_date").disabled = true;
+                document.getElementById("next-button").textContent = "Next";
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Previous Work</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" id="next-button">Next</button>
+    </form>
+</body>
+</html>

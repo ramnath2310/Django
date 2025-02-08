@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bank Details</title>
+</head>
+<body>
+    
+    {% if success_message %}
+        <p style="color: green;">{{ success_message }}</p>
+    {% else %}
+        <h1>Bank Details</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="basic_info_id" value="{{ basic_info_id }}">
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+</body>
+</html>

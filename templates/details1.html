@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details</title>
+</head>
+<body>
+    <h1>User Details</h1>
+    <table border="1">
+        <tr>
+            <th>First Name</th>
+            <td>{{ basic_info.first_name }}</td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td>{{ basic_info.last_name }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ basic_info.email }}</td>
+        </tr>
+        <tr>
+            <th>Phone Number</th>
+            <td>{{ basic_info.phone_number }}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{ basic_info.address }}</td>
+        </tr>
+        <tr>
+            <th>Date of Birth</th>
+            <td>{{ basic_info.date_of_birth }}</td>
+        </tr>
+        <tr>
+            <th>Institution Name</th>
+            <td>{{ education_detail.institution_name }}</td>
+        </tr>
+        <tr>
+            <th>Degree</th>
+            <td>{{ education_detail.degree }}</td>
+        </tr>
+        <tr>
+            <th>Graduation Year</th>
+            <td>{{ education_detail.graduation_year }}</td>
+        </tr>
+        <tr>
+            <th>Company Name</th>
+            <td>{{ previous_work.company_name }}</td>
+        </tr>
+        <tr>
+            <th>Job Title</th>
+            <td>{{ previous_work.job_title }}</td>
+        </tr>
+        <tr>
+            <th>Start Date</th>
+            <td>{{ previous_work.start_date }}</td>
+        </tr>
+        <tr>
+            <th>End Date</th>
+            <td>{{ previous_work.end_date }}</td>
+        </tr>
+        <tr>
+            <th>Bank Name</th>
+            <td>{{ bank_detail.bank_name }}</td>
+        </tr>
+        <tr>
+            <th>Account Number</th>
+            <td>{{ bank_detail.account_number }}</td>
+        </tr>
+        <tr>
+            <th>IFSC Code</th>
+            <td>{{ bank_detail.ifsc_code }}</td>
+        </tr>
+    </table>
+</body>
+</html>

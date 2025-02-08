@@ -21,9 +21,11 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # path('',include("calc.urls")),
-    path('',include("travello.urls")),
+    # path('',include("travello.urls")),
+    path('',include("userdetails.urls")),
     path('admin/', admin.site.urls),
     path('accounts/', include("accounts.urls")),
+    
     # path('',include("lms.urls"))
 ]
 
